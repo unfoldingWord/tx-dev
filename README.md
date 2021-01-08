@@ -66,7 +66,7 @@ How to run tX on Ubuntu Linux:
 
 ### Initial setup (only need to do once):
 
-1. `mv ./setENVs_sample.sh ./setENVs.sh`
+1. `cp ./setENVs_sample.sh ./setENVs.sh`
 1. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
 1. `./setup.sh`
 
