@@ -112,3 +112,5 @@ sonar-project.properties
 .scannerwork/
 
 setENVs.sh
+node_modules
+
