@@ -71,7 +71,7 @@ How to run tX on Ubuntu Linux:
 1. `./setup.sh`
 
 
-### To Start Up Everything in 6 tabs:
+### To Start Up Everything in 5 tabs:
 
 `npm start`
 
