@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/door43-enqueue-job" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/door43-job-handler" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/obs-pdf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tx-enqueue-job" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tx-job-handler" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/uw-pdf" vcs="Git" />
+  </component>
+</project>

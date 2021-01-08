@@ -1,0 +1,36 @@
+{
+  "name": "tx-dev",
+  "version": "1.0.0",
+  "description": "Development environment setup for tX",
+  "main": "index.js",
+  "scripts": {
+    "setup": "bash ./setup.sh",
+    "update": "bash ./update.sh",
+    "start-tab": "bash ./run.sh",
+    "tab:run:1": "ttab -t 'Tab 1' npm run start-tab 1",
+    "tab:run:2": "ttab -t 'Tab 2' npm run start-tab 2",
+    "tab:run:3": "ttab -t 'Tab 3' npm run start-tab 3",
+    "tab:run:4": "ttab -t 'Tab 4' npm run start-tab 4",
+    "tab:run:5": "ttab -t 'Tab 5' npm run start-tab 5",
+    "start": "run-s tab:run:1 tab:run:2 tab:run:3 tab:run:4 tab:run:5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unfoldingword-dev/tx-dev.git"
+  },
+  "keywords": [
+    "unfoldingWord",
+    "dev",
+    "tx"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unfoldingword-dev/tx-dev/issues"
+  },
+  "homepage": "https://github.com/unfoldingword-dev/tx-dev#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "ttab": "^0.7.0"
+  }
+}
