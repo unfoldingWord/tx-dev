@@ -77,7 +77,7 @@ How to run tX on Ubuntu Linux:
 
 ## Here's what's happening in each tab:
 
-### In terminal ab 1:
+### In terminal tab 1:
 
 * Starts a Redis server in the local tx-net Docker network
 * which then starts the (dev-)door43-enqueue-job process
