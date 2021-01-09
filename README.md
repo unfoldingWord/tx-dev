@@ -28,6 +28,9 @@ The individual repos are here:
 1. `cp ./setENVs_sample.sh ./setENVs.sh`
 1. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
 1. `./setup.sh`
+	* Installs needed node modules
+	* Clones all the repos listed in above *Repos Involved* section, excluding tx-dev
+	* Creates the Docker network `tx-net` if it doesn't already exist
 
 
 ## To Start Up Everything in 7 Tabs:
@@ -38,7 +41,7 @@ The following happens when you run the above command:
 1. Opens seven (7) tabs in a terminal window.
 1. In each tab it:
 	1. Sources the setENVs.sh file to set environment variables
-	1. Changes directory to the appropriate cloned repo, e.g., `cd tx-dev/door43-enqueue-job`
+	1. Changes directory to the appropriate cloned repo, e.g., `cd tx-dev/door43-enqueue-job` for tab 1
 	1. Sets up a Python 3.8 or newer (currently 3.8.6) virtual environment and activates it
 	1. Runs the tX process from the Makefile in debug mode
 
