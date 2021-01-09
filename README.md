@@ -34,8 +34,8 @@ The individual repos are here:
 
 `npm start`
 
-The following happens when you run that command:
-1. Open seven (7) tabs in a terminal window.
+The following happens when you run the above command:
+1. Opens seven (7) tabs in a terminal window.
 1. In each tab it:
 	1. Sources the setENVs.sh file to set environment variables
 	1. Changes directory to the appropriate cloned repo, e.g., `cd tx-dev/door43-enqueue-job`
