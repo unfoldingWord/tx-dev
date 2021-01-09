@@ -12,7 +12,9 @@
     "tab:run:3": "ttab -t 'Tab 3' npm run start-tab 3",
     "tab:run:4": "ttab -t 'Tab 4' npm run start-tab 4",
     "tab:run:5": "ttab -t 'Tab 5' npm run start-tab 5",
-    "start": "run-s tab:run:1 tab:run:2 tab:run:3 tab:run:4 tab:run:5"
+    "tab:run:6": "ttab -t 'Tab 6' npm run start-tab 6",
+    "tab:run:7": "ttab -t 'Tab 7' 'cd tests && sleep 5 && docker network inspect tx-net'",
+    "start": "run-s tab:run:1 tab:run:2 tab:run:3 tab:run:4 tab:run:5 tab:run:6 tab:run:7"
   },
   "repository": {
     "type": "git",

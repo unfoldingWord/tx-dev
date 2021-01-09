@@ -20,4 +20,4 @@ COMMANDS[4]="make runDevDebug"
 COMMANDS[5]="make runDevDebug"
 COMMANDS[6]="make runDevDebug"
 
-cd ${DIRS[$1]} && python3 -m venv myVenv/; source myVenv/bin/activate && ${COMMANDS[$1]}
+cd ${DIRS[$1]} && python3 -m venv venv/; source venv/bin/activate && ${COMMANDS[$1]}
