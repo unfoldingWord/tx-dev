@@ -23,21 +23,14 @@ The individual repos are here:
 * Have Docker installed
 
 
-## Overview of Running/Testing the tX System Architecture Locally
-
-How to run tX on Ubuntu Linux (done when you run `npm start` as described in the *To Start Up Everything in 7 Tabs* section):
-
-1. Simulate the sending of a JSON payload and watch everything happen -- debug mode prints more on the terminal screen
-
-
-### Initial Setup (only need to do once):
+## Initial Setup (only need to do once):
 
 1. `cp ./setENVs_sample.sh ./setENVs.sh`
 1. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
 1. `./setup.sh`
 
 
-### To Start Up Everything in 7 Tabs:
+## To Start Up Everything in 7 Tabs:
 
 `npm start`
 
