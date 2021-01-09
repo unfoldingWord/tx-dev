@@ -203,11 +203,10 @@ You should make sure that all these docker processes are communicating properly.
 Now it's all set-up.
 
 
-## Generating a PDF
+## Simulate Triggering the Generation of HTML or a PDF
 
 ### In terminal tab 7:
 
-1. `cd <your_repos_dir>/tools/tx`
 1. 
    `./submit_tX_tests.py`
    with this in the JSON file it loads:
