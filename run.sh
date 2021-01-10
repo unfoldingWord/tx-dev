@@ -9,7 +9,7 @@ DIRS[3]=tx-enqueue-job
 DIRS[4]=tx-job-handler
 DIRS[5]=obs-pdf
 DIRS[6]=uw-pdf
-DIRS[7]=tests
+DIRS[7]=.
 
 declare -a COMMANDS
 COMMANDS[1]="make composeEnqueueRedis"

@@ -9,7 +9,7 @@ checkEnvVariables:
 	fi
 
 runDevDebug: checkEnvVariables
-	docker run -e GOGS_USER_TOKEN -e REDIS_URL --name "tx-dev" --network tx-net -it --rm -v ${PWD}:/scripts -v /var/run/docker.sock:/var/run/docker.sock python:3 sh -c "pip install rq; cd /scripts; make testNetwork; make info; bash"
+	docker run --name "tx-dev" --network tx-net -it --rm -v ${PWD}:/scripts -v /var/run/docker.sock:/var/run/docker.sock python:3 /bin/bash -c "cd /scripts; source setENVs.sh; pip install -r requirements.txt; make testNetwork; make info; cd tests; bash"
 
 testNetwork:
 	# Making sure all containers are running

@@ -12,4 +12,4 @@ do
   done
   printf " started.\n"
 done
-printf "\n%s\n"  "All containers are up and running."
+printf "\n%s\n\n"  "All containers are up and running."
