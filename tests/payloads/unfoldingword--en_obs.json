@@ -1,0 +1,8 @@
+{
+  "job_id": "Door43_en_obs_PDF_request",
+  "identifier": "unfoldingWord--en_obs--richmahn-tc-create-1",
+  "resource_type": "Open_Bible_Stories",
+  "input_format": "md",
+  "output_format": "pdf",
+  "source":"https://git.door43.org/unfoldingWord/en_obs/archive/master.zip"
+}

@@ -80,7 +80,7 @@ The following happens when you run the above command:
 * which then translates preprocessed OBS repos to a PDF
 * which then enqueues a door43-callback
 
-### In terminal tab 6:
+### In terminal tab 6 (currently in development, disabled):
 
 * Starts the (dev-)uw-pdf creator process
 * which then connects to the local Redis server
@@ -89,14 +89,15 @@ The following happens when you run the above command:
 
 ### In terminal tab 7:
 
-* Displays the network status of the tx-net Docker network so you can verify all services above are running (see next section *Docker check*)
-* Puts you in the tx-dev/tests directory so you can run some python scripts to simulate generating HTML and PDF content
+* Waits for all the containers to start up. If one isn't starting, check its tab.
+* Once all containers have started, shows the rq info on how many workers have been created (should be 3)
+* Puts you in the tx-dev/tests directory so you can run some python scripts to simulate generating HTML and PDF content in the tx-net Docker network
 
 ## Docker check
 
-You should make sure that all these docker processes are communicating properly. You can do this by running the following:
+While terminal tab 7 above should check a few things for you (e.g. all containers running; # of workers is 3), you should make sure that all these docker processes are communicating properly. You can do this by running the following:
 
-### In terminal tab 7:
+### In another terminal on your machine run:
 
 1. `docker network ls`  
 	Should see something like:
@@ -200,8 +201,6 @@ You should make sure that all these docker processes are communicating properly.
 	    }
 	]
 	```
-
-
 
 Now it's all set-up.
 
