@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source ./setENVs.sh
-
 declare -a DIRS
 DIRS[1]=door43-enqueue-job
 DIRS[2]=door43-job-handler
@@ -20,4 +18,4 @@ COMMANDS[5]="make runDevDebug"
 COMMANDS[6]="make runDevDebug"
 COMMANDS[7]="make runDevDebug"
 
-cd ${DIRS[$1]} && python3 -m venv venv/ && source venv/bin/activate && ${COMMANDS[$1]}
+source ./setENVs.sh && cd ${DIRS[$1]} && ${COMMANDS[$1]}
