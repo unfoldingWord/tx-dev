@@ -20,7 +20,7 @@ The individual repos are here:
 
 * Have Python v3.8 or newer installed
 * Have node v12 or newer installed and npm 6.14 or newer installed
-* Have Docker installed
+* Have Docker installed and running
 
 
 ## Initial Setup (only need to do once):
