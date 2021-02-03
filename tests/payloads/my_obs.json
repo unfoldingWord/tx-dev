@@ -1,0 +1,8 @@
+{
+  "job_id": "Door43_my_obs_PDF_request",
+  "identifier": "richmahn--my_obs--master",
+  "resource_type": "Open_Bible_Stories",
+  "input_format": "md",
+  "output_format": "pdf",
+  "source":"https://git.door43.org/richmahn/my_obs/archive/master.zip"
+}

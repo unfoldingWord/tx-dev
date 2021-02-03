@@ -22,3 +22,6 @@
 	path = uw-pdf
 	url = git@github.com:unfoldingword-dev/uw-pdf.git
 	branch = master
+[submodule "tx-pdf-job-handler"]
+	path = tx-pdf-job-handler
+	url = git@github.com:unfoldingWord-dev/tx-pdf-job-handler.git
