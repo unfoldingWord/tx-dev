@@ -32,7 +32,7 @@ MAX_JOBS_TO_SUBMIT = 1
 TEST_PREFIXES = ('dev-',)
 #TEST_PREFIXES = ('', 'dev-',)
 
-LOCAL_FILEPATH = '/Users/richmahn/'
+LOCAL_FILEPATH = '.'
 
 # ======================================================================
 
@@ -40,7 +40,7 @@ LOCAL_FILEPATH = '/Users/richmahn/'
 if USE_LOCALCOMPOSE_URL: assert TEST_PREFIXES == ('dev-',)
 
 LOCAL_COMPOSE_URL = 'http://127.0.0.1:8090/'
-TEST_FOLDER = f'{LOCAL_FILEPATH}/testPayloads/JSON/tX/'
+TEST_FOLDER = f'{LOCAL_FILEPATH}/payloads'
 DATA_SET = [
     # First entry is a status flag
     #   currently 'matched', 'success', or 'test'

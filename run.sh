@@ -6,7 +6,7 @@ DIRS[2]=door43-job-handler
 DIRS[3]=tx-enqueue-job
 DIRS[4]=tx-job-handler
 DIRS[5]=obs-pdf
-DIRS[6]=uw-pdf
+DIRS[6]=tx-pdf-job-handler
 DIRS[7]=.
 
 declare -a COMMANDS
