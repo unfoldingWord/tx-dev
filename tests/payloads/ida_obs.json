@@ -1,0 +1,8 @@
+{
+  "job_id": "Door43_ida_obs_HTML_request",
+  "identifier": "jdwood--jdwood/ida-x-isukha_obs_text_obs--master",
+  "resource_type": "Open Bible Stories",
+  "input_format": "md",
+  "output_format": "html",
+  "source":"https://git.door43.org/jdwood/ida-x-isukha_obs_text_obs/archive/master.zip"
+}

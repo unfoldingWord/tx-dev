@@ -1,8 +1,8 @@
 {
-  "job_id": "Door43_my_obs_PDF_request",
-  "identifier": "richmahn--my_obs--master",
-  "resource_type": "Open_Bible_Stories",
+  "job_id": "Door43_en_ta_HTML_request",
+  "identifier": "unfoldingword--en_ta--master",
+  "resource_type": "Translation Academy",
   "input_format": "md",
-  "output_format": "pdf",
-  "source":"https://git.door43.org/richmahn/my_obs/archive/master.zip"
+  "output_format": "html",
+  "source":"https://git.door43.org/unfoldingword/en_ta/archive/master.zip"
 }
