@@ -1,6 +1,7 @@
 #!/bin/bash
 
-containers=("D43_DevJob_Handler" "tx-enqueue-job_txenqueue_1" "tx-enqueue-job_proxy_1" "obs-pdf" "uw-pdf" "door43-enqueue-job_proxy_1" "door43-enqueue-job_redis_1" "tX_Dev_HTML_Job_Handler" "door43-enqueue-job_enqueue_1")
+containers=("D43_DevJob_Handler" "tx-enqueue-job_txenqueue_1" "tx-enqueue-job_proxy_1" "door43-enqueue-job_proxy_1" "door43-enqueue-job_redis_1" "tX_Dev_Job_Handler" "door43-enqueue-job_enqueue_1")
+#containers=("door43-enqueue-job_proxy_1" "door43-enqueue-job_redis_1" "tx-enqueue-job_txenqueue_1" "tx-enqueue-job_proxy_1" "tX_Dev_HTML_Job_Handler")
 
 for container in "${containers[@]}";
 do

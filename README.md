@@ -147,7 +147,7 @@ While terminal tab 7 above should check a few things for you (e.g. all container
 	                "IPv6Address": ""
 	            },
 	            "4db7d6efef0cac91898512bab22a2aecfa914814d6c5dfc51f7f1166a94cd632": {
-	                "Name": "tX_Dev_HTML_Job_Handler",
+	                "Name": "tX_Dev_Job_Handler",
 	                "EndpointID": "b5e734f2c029414bba893191813ec23f1dbd75ac80b91eea2adef629c0d534c6",
 	                "MacAddress": "02:42:ac:12:00:08",
 	                "IPv4Address": "172.18.0.8/16",
@@ -188,13 +188,6 @@ While terminal tab 7 above should check a few things for you (e.g. all container
 	                "IPv4Address": "172.18.0.3/16",
 	                "IPv6Address": ""
 	            },
-	            "e5869b0558a7a6e9b0f610408575406fa07b96f85b650fdf9f81660198b2f367": {
-	                "Name": "obs-pdf",
-	                "EndpointID": "66e618f5e29eecb18c49c20cad7e6db46b3a743badf52d4f3379d96fc093eb45",
-	                "MacAddress": "02:42:ac:12:00:09",
-	                "IPv4Address": "172.18.0.9/16",
-	                "IPv6Address": ""
-	            }
 	        },
 	        "Options": {},
 	        "Labels": {}

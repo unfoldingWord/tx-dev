@@ -9,7 +9,10 @@ checkEnvVariables:
 	fi
 
 runDevDebug: checkEnvVariables
-	docker run --name "tx-dev" --network tx-net -it --rm -v ${PWD}:/scripts -v /var/run/docker.sock:/var/run/docker.sock python:3 /bin/bash -c "cd /scripts; source setENVs.sh; pip install -r requirements.txt; make testNetwork; make info; cd tests; bash"
+	docker run --name tx-dev --network tx-net -it --rm -v "${PWD}/ssh":/root/.ssh:ro -v ${PWD}:/scripts -v /var/run/docker.sock:/var/run/docker.sock python:3 /bin/bash -c "cd /scripts; source setENVs.sh; pip install -r requirements.txt; make testNetwork; make info; cd tests; bash"
+
+runDcs: checkEnvVariables
+	docker run --name dcs --rm -v "${PWD}/dcs/gitea:/data -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -e USER_UID=1000 -e USER_GID=1000 --network tx-net unfoldingword/dcs:latest /bin/bash -c "cd /app; ./gitea web"
 
 testNetwork:
 	# Making sure all containers are running
