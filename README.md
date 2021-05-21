@@ -1,6 +1,6 @@
 # tX Dev
 
-Purpose of this repo is to have an easy way to setup and run the tX system architecture locally as a dev environment. 
+Purpose of this repo is to have an easy way to setup and run the tX system architecture locally as a dev environment, including a local instance of DCS and a Door43 Preview website.
 
 See https://forum.door43.org/t/door43-org-tx-development-architecture/65 which describes the system architecture.
 
@@ -13,8 +13,6 @@ The individual repos are here:
 * https://github.com/unfoldingWord-dev/door43-job-handler
 * https://github.com/unfoldingWord-dev/tx-enqueue-job
 * https://github.com/unfoldingWord-dev/tx-job-handler
-* https://github.com/unfoldingWord-dev/obs-pdf
-* https://github.com/unfoldingWord-dev/uw-pdf
 
 ## Prereqs
 
@@ -25,13 +23,13 @@ The individual repos are here:
 
 ## Initial Setup (only need to do once):
 
-1. `cp ./setENVs_sample.sh ./setENVs.sh`
-1. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
-1. `./setup.sh`
+1. Run: `setup.sh`
+	This will:
+	* Copy setENVs_sample.sh to setENVs.sh if it doens't exist
 	* Installs needed node modules
+	* Install all the submodules (other GitHub repositories)
 	* Clones all the repos listed in above *Repos Involved* section, excluding tx-dev
-	* Creates the Docker network `tx-net` if it doesn't already exist
-
+2. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
 
 ## To Start Up Everything in 7 Tabs:
 
@@ -54,25 +52,25 @@ The following happens when you run the above command:
 * which then starts the (dev-)door43-enqueue-job process
 	* which handles JSON payloads from Door43 webhooks
 	* which also handles callbacks from tx-job-handler and uploads the converted files to Door43
-	
+
 ### In terminal tab 2:
 
 * Starts the (dev-)door43-job-handler process
-* which then connects to the local tx-net network Redis server 
+* which then connects to the local tx-net network Redis server
 * which then does preprocessing of Door43 repos
-	
+
 ### In terminal tab 3:
 
 * Starts the (dev-)tx-enqueue-job process
 * which then handles JSON payloads from door43-job-handler and from door43.org PDF button
-   
+
 ### In terminal tab 4:
 
 * Starts the (dev-)tx-job-handler process
 * which then connects to the local tx-net network Redis server
 * which then translates preprocessed repos to HTML
 * which then enqueues a door43-callback
-	
+
 ### In terminal tab 5:
 
 * Starts the (dev-)obs-pdf creator process
@@ -99,7 +97,7 @@ While terminal tab 7 above should check a few things for you (e.g. all container
 
 ### In another terminal on your machine run:
 
-1. `docker network ls`  
+1. `docker network ls`
 	Should see something like:
    ```
    $ docker network ls
@@ -109,7 +107,7 @@ While terminal tab 7 above should check a few things for you (e.g. all container
 	2f67f4a0af1f   none      null      local
 	c618e4b60d55   tx-net    bridge    local
    ```
-1. `docker network inspect tx-net`  
+1. `docker network inspect tx-net`
 	Should see something like:
    ```
    $ docker network inspect tx-net
@@ -202,7 +200,7 @@ Now it's all set-up.
 
 ### In terminal tab 7:
 
-1. 
+1.
    `./submit_tX_tests.py`
    with this in the JSON file it loads:
 	```
@@ -220,15 +218,15 @@ Now it's all set-up.
 
 ## Notes About Job Queues Involved
 
-tX has these 3 job queues: 
+tX has these 3 job queues:
 
 1. tX_webhook: makes HTML pages
 1. tX_OBS_PDF_webhook: makes OBS PDFs
 1. tXmake other PDFs
-   
+
 The queue for #1 is called tX_webhook
 The queue for #2 is called tX_OBS_PDF_webhook.
-The queue for #3 is called tX_other_PDF_webhook. 
+The queue for #3 is called tX_other_PDF_webhook.
 
 
 ## Notes About the Docker Containers Involved:
