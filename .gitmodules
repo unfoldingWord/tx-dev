@@ -14,17 +14,6 @@
 	path = tx-job-handler
 	url = git@github.com:unfoldingword-dev/tx-job-handler.git
 	branch = master
-[submodule "obs-pdf"]
-	path = obs-pdf
-	url = git@github.com:unfoldingword-dev/obs-pdf.git
-	branch = master
-[submodule "uw-pdf"]
-	path = uw-pdf
-	url = git@github.com:unfoldingword-dev/uw-pdf.git
-	branch = master
-[submodule "tx-pdf-job-handler"]
-	path = tx-pdf-job-handler
-	url = git@github.com:unfoldingWord-dev/tx-pdf-job-handler.git
 [submodule "door43.org"]
 	path = door43.org
 	url = git@github.com:unfoldingword-dev/door43.org.git
