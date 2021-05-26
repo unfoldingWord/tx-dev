@@ -31,62 +31,54 @@ The individual repos are here:
 	* Clones all the repos listed in above *Repos Involved* section, excluding tx-dev
 2. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
 
-## To Start Up Everything in 7 Tabs:
+## To Start Up Everything in 6 Tabs:
 
 `npm start`
 
 The following happens when you run the above command:
-1. Opens seven (7) tabs in a terminal window.
+1. Opens five (5) tabs in a terminal window.
 1. In each tab it:
 	1. Sources the setENVs.sh file to set environment variables
 	1. Changes directory to the appropriate cloned repo, e.g., `cd tx-dev/door43-enqueue-job` for tab 1
-	1. Sets up a Python 3.8 or newer (currently 3.8.6) virtual environment and activates it
-	1. Runs the tX process from the Makefile in debug mode
+	1. Runs the proper Makefile command to run the docker container(s) locally in develop mode, setting them up to run on the same Docker network
+
+**Here's a detailed explanation of what's happening in each tab:**
+
+### TAB 1 ([door43-enqueue-job](https://github.com/unfoldingWord-dev/door43-enqueue-job) repo):
+
+**In terminal tab 1:**
+* Starts 3 docker containers: a frontend webserver (proxy) to handle webhook & callback calls, a flask app to handle enqueues (enqueue), and redis service (redis)
+* The (dev-)door43-enqueue-job process:
+	* handles JSON payloads from Door43 webhooks and adds them to the webhook queue for door43-job-handler to preprocess (TAB 2)
+	* which then handless callbacks from door43-job-handler (TAB 2) with preprocessed files and makes a job request to tx-enqueue-job (TAB 3)
+	* which then handles callbacks from tx-job-handler when job is done (TAB 4), adding a job to the callback queue for door43-job-handler (TAB 2) to deploy files to the door43.org bucket
+
+### TAB 2 ([door43-job-handler](https://github.com/unfoldingWord-dev/door43-job-handler) repo): 
+
+**In terminal tab 2:**
+* Starts the (dev-)door43-job-handler process in a Docker container on the tx-net network
+* which then connects to the Door43 Redis service and watches the queue for "webhook" and "callback" jobs
+	* with "webhook" job: does preprocessing of Door43 repos, uploads the files to the CDN (AWS) and does a call back to door43-enqueue-job (TAB 1)
+    * with "callback" job: postprocesses the HTML files to deploy to the door43.org bucket (AWS) [END OF JOB LIFESPAN]
+
+### TAB 3 ([tx-enqueue-job](https://github.com/unfoldingWord-dev/tx-enqueue-job) repo):
+
+**In terminal tab 3:**
+* Starts 3 docker containers: a frontend webserver (proxy) to handle tx requests, a flask app to handle enqueues (enqueue), and redis service (redis)
+* The (dev-)tx-enqueue-job process:
+	* handles JSON payloads from door43-enqueue-job (TAB 1) to request a tX job
 
 
-## Here's a detailed explanation of what's happening in each tab:
-
-### In terminal tab 1:
-
-* Starts a Redis server in the local tx-net Docker network
-* which then starts the (dev-)door43-enqueue-job process
-	* which handles JSON payloads from Door43 webhooks
-	* which also handles callbacks from tx-job-handler and uploads the converted files to Door43
-
-### In terminal tab 2:
-
-* Starts the (dev-)door43-job-handler process
-* which then connects to the local tx-net network Redis server
-* which then does preprocessing of Door43 repos
-
-### In terminal tab 3:
-
-* Starts the (dev-)tx-enqueue-job process
-* which then handles JSON payloads from door43-job-handler and from door43.org PDF button
-
+### TAB 4 ([tx-job-handler](https://github.com/unfoldingWord-dev/tx-job-handler) repo)
 ### In terminal tab 4:
+* Starts the (dev-)tx-job-handler process in a Docker container on the tx-net network
+* which then connects to tX Redis service and watches the queue for jobs
+* which then translates preprocessed repos to HTML and PDF files
+* which then enqueues a door43-callback (TAB 1)
 
-* Starts the (dev-)tx-job-handler process
-* which then connects to the local tx-net network Redis server
-* which then translates preprocessed repos to HTML
-* which then enqueues a door43-callback
+### TAB 5
 
-### In terminal tab 5:
-
-* Starts the (dev-)obs-pdf creator process
-* which then connects to the local Redis server
-* which then translates preprocessed OBS repos to a PDF
-* which then enqueues a door43-callback
-
-### In terminal tab 6 (currently in development, disabled):
-
-* Starts the (dev-)uw-pdf creator process
-* which then connects to the local Redis server
-* which then translates preprocessed uW repos to a PDF
-* which then enqueues a door43-callback
-
-### In terminal tab 7:
-
+**In terminal tab 5:**
 * Waits for all the containers to start up. If one isn't starting, check its tab.
 * Once all containers have started, shows the rq info on how many workers have been created (should be 3)
 * Puts you in the tx-dev/tests directory so you can run some python scripts to simulate generating HTML and PDF content in the tx-net Docker network
@@ -218,30 +210,15 @@ Now it's all set-up.
 
 ## Notes About Job Queues Involved
 
-tX has these 3 job queues:
+tX has these 1 job queue:
 
-1. tX_webhook: makes HTML pages
-1. tX_OBS_PDF_webhook: makes OBS PDFs
-1. tXmake other PDFs
-
-The queue for #1 is called tX_webhook
-The queue for #2 is called tX_OBS_PDF_webhook.
-The queue for #3 is called tX_other_PDF_webhook.
-
-
-## Notes About the Docker Containers Involved:
-
-### obs-pdf
-
-The OBS PDF container is based on https://hub.docker.com/repository/docker/unfoldingword/obs-stretch-base (slim version of Debian stretch with Python 3.8.1 built from https://github.com/unfoldingWord-dev/obs-pdf/blob/develop/resources/docker-slim-python3.8-base/Dockerfile).
-
+1. tX_webhook: makes HTML or PDF pages based on  output format in job request
 
 ## Notes about Making an RQ app
 
 To make a RQ app:
 
-1. include [RQ](https://pypi.org/project/rq/) and change queue name in your copy of https://github.com/unfoldingWord-dev/obs-pdf/blob/develop/public/rq_settings.py.
-1. create a function for rq to call named job as in https://github.com/unfoldingWord-dev/obs-pdf/blob/develop/public/webhook.py.
+1. include [RQ](https://pypi.org/project/rq/) and change queue name in your copy of https://github.com/unfoldingWord-dev/tx-job-handler/blob/develop/public/rq_settings.py.
+1. create a function for rq to call named job as in https://github.com/unfoldingWord-dev/tx-job-handler/blob/develop/public/webhook.py.
 1. job(...) should receive a JSON dict as described in https://forum.door43.org/t/door43-org-tx-development-architecture/65 section 4.
-1. The worker should create the PDF file and upload it to `(dev-)cdn.door43.org/u/<repo_owner_username>/<repo_name>/<branch_or_tag_name>/`. The PDF file must be called either `<repo_owner_username>–<repo_name>–<tag_name>.pdf` or `<repo_owner_username>–<repo_name>–<branch_name>–<commit_hash>.pdf`.
-
+1. The worker should create the file(s) and upload them as a zip file to `(dev-)cdn.door43.org/u/<repo_owner_username>/<repo_name>/<branch_or_tag_name>/`.
