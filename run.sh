@@ -7,7 +7,7 @@ DIRS[1]=door43-enqueue-job
 DIRS[2]=door43-job-handler
 DIRS[3]=tx-enqueue-job
 DIRS[4]=tx-job-handler
-DIRS[5]=dcs-test
+DIRS[5]=dcs
 DIRS[6]=.
 
 declare -a COMMANDS
