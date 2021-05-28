@@ -14,7 +14,7 @@ services:
       - USER_GID=1000
     restart: always
     volumes:
-      - ./gitea:/data
+      - ./data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
