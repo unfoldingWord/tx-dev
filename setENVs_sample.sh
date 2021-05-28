@@ -8,7 +8,10 @@ export DB_ENDPOINT="door43.cluster-ccidwldijq9p.us-west-2.rds.amazonaws.com"
 export AWS_ACCESS_KEY_ID="AKJ.........QRF"
 export AWS_SECRET_ACCESS_KEY="kxZ...................1bm"
 export TX_DATABASE_PW="fxt......bv1"
-export GOGS_USER_TOKEN="672................................882"
+
+# For Gitea
+export GITEA_URL="http://dcs"
+export RESTRICT_GITEA_URL=0
 
 # Added for rq version
 export QUEUE_PREFIX="dev-"
