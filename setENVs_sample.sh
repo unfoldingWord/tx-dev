@@ -12,6 +12,7 @@ export TX_DATABASE_PW="fxt......bv1"
 # For Gitea
 export GITEA_URL="http://dcs"
 export RESTRICT_GITEA_URL=0
+export GOGS_USER_TOKEN="918...c3d3"
 
 # Added for rq version
 export QUEUE_PREFIX="dev-"
