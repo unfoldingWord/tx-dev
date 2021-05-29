@@ -13,7 +13,7 @@ DIRS[6]=.
 declare -a COMMANDS
 COMMANDS[1]="make composeEnqueueRedis"
 COMMANDS[2]="make runDevDebug"
-COMMANDS[3]="make composeEnqueue"
+COMMANDS[3]="make composeEnqueueRedis"
 COMMANDS[4]="make runDevDebug"
 COMMANDS[5]="make runDcsTest"
 COMMANDS[6]="make runDevDebug"
