@@ -13,6 +13,7 @@ The individual repos are here:
 * https://github.com/unfoldingWord-dev/door43-job-handler
 * https://github.com/unfoldingWord-dev/tx-enqueue-job
 * https://github.com/unfoldingWord-dev/tx-job-handler
+* https://github.com/unfoldingword-dev/door43.org
 
 ## Prereqs
 
@@ -29,7 +30,9 @@ The individual repos are here:
 	* Installs needed node modules
 	* Install all the submodules (other GitHub repositories)
 	* Clones all the repos listed in above *Repos Involved* section, excluding tx-dev
-2. `vi ./setENVs.sh` - set all masked values to your AWS & DCS keys
+
+2. `vi ./setENVs.sh` - Set the AWS_ACCESS_KEY and AWS_SECRET_ACCESS_KEY to yours to use with unfoldingWord's xsni AWS account. Set the TX_DATABASE_PW to the one used on AWS (obtain from another tX developer). All else can stay the same (No need for GOGS_USER_TOKEN)
+
 
 ## To Start Up Everything in 6 Tabs:
 
