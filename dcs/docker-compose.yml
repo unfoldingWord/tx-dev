@@ -1,23 +1,21 @@
 version: "3"
 
 networks:
-  default:
-    external:
-      name: tx-net
+  tx-net:
+    external: true
 
 services:
-  server:
-    image: unfoldingword/dcs:latest
-    container_name: dcs
+  dcs:
+    build:
+      context: .
+      args:
+        - DOOR43_PREVIEW_PORT=${DOOR43_PREVIEW_PORT-5556}
     environment:
       - USER_UID=1000
       - USER_GID=1000
     restart: always
-    volumes:
-      - ./data:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000:3000"
+      - "${DCS_PORT-5555}:80"
       - "222:22"
-
+    networks:
+      - tx-net
