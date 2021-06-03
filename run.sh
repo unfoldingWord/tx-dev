@@ -15,7 +15,7 @@ COMMANDS[1]="make composeEnqueueRedis"
 COMMANDS[2]="make runDevDebug"
 COMMANDS[3]="make composeEnqueue"
 COMMANDS[4]="make runDevDebug"
-COMMANDS[5]="make runDcsTest"
+COMMANDS[5]="make runDcsDockerCompose"
 COMMANDS[6]="make runDevDebug"
 
 source ./setENVs.sh && cd ${DIRS[$1]} && ${COMMANDS[$1]}
