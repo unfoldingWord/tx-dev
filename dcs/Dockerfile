@@ -1,4 +1,4 @@
-FROM  unfoldingword/dcs:latest-qa
+FROM  unfoldingword/dcs:latest
 
 ARG DOOR43_PREVIEW_PORT=5556
 ENV DOOR43_PREVIEW_PORT=$DOOR43_PREVIEW_PORT
