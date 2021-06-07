@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 printf "Configuring localstack components..."
 
-readonly LOCALSTACK_S3_URL=http://s3:4566
+readonly AWS_ENDPOINT_URL=http://localstack:4566
 
 sleep 5;
 
@@ -13,9 +13,9 @@ echo "[default]" > ~/.aws/config
 echo "region = us-east-1" >> ~/.aws/config
 echo "output = json" >> ~/.aws/config
 
-aws --endpoint-url=$LOCALSTACK_S3_URL s3api create-bucket --bucket local-tx-webhook-client
-aws --endpoint-url=$LOCALSTACK_S3_URL s3api create-bucket --bucket local-cdn.door43.org
-aws --endpoint-url=$LOCALSTACK_S3_URL s3api create-bucket --bucket local-door43.org
+aws --endpoint-url=$AWS_ENDPOINT_URL s3api create-bucket --bucket dev-tx-webhook-client
+aws --endpoint-url=$AWS_ENDPOINT_URL s3api create-bucket --bucket dev-cdn.door43.org
+aws --endpoint-url=$AWS_ENDPOINT_URL s3api create-bucket --bucket dev-door43.org
 
 set +x
 
