@@ -110,5 +110,5 @@ sonar-project.properties
 
 setENVs.sh
 node_modules
-s3/data
+.env
 
