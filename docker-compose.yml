@@ -15,6 +15,8 @@ x-common-variables: &common-variables
   GOGS_USER_TOKEN: "123"
   DCS_PORT: ${DCS_PORT-5555}
   DOOR43_PREVIEW_PORT: ${DOOR43_PREVIEW_PORT-5556}
+  DB_CONNECTION_STRING: ${DB_CONNECTION_STRING-sqlite:///:memory:}
+  TX_POST_URL: ${TX_POST_URL-http://txproxy}
 
 services:
   redis:
