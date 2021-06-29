@@ -17,3 +17,6 @@
 [submodule "door43.org"]
 	path = door43.org
 	url = git@github.com:unfoldingword-dev/door43.org.git
+[submodule "door43-catalog-job-handler"]
+	path = door43-catalog-job-handler
+	url = git@github.com:unfoldingWord-dev/door43-catalog-job-handler.git
