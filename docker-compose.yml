@@ -58,6 +58,17 @@ services:
     depends_on:
       - d43proxy
 
+  door43-catalog-job-handler:
+    image: python:3
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_CatalogJobHandler"
+    environment: *common-variables
+    volumes:
+      - ${PWD}/door43-catalog-job-handler:/scripts
+    networks:
+      - tx-net
+    depends_on:
+      - d43proxy
+
   txenqueue:
     build:
       context: ./tx-enqueue-job/tXenqueue

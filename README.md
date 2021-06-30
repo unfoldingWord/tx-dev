@@ -11,6 +11,7 @@ The individual repos are here:
 * https://github.com/unfoldingWord-dev/tx-dev (this repo)
 * https://github.com/unfoldingWord-dev/door43-enqueue-job
 * https://github.com/unfoldingWord-dev/door43-job-handler
+* https://github.com/unfoldingWord-dev/door43-catalog-job-handler
 * https://github.com/unfoldingWord-dev/tx-enqueue-job
 * https://github.com/unfoldingWord-dev/tx-job-handler
 * https://github.com/unfoldingword-dev/door43.org
