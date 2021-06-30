@@ -46,9 +46,21 @@ services:
     depends_on:
       - d43enqueue
       
-  door43-job-handler:
+  door43-job-handler_1:
     image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_JobHandler"
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_JobHandler_1"
+    environment: *common-variables
+    volumes:
+      - ${PWD}/door43-job-handler:/scripts
+      - door43_u:/site/u
+    networks:
+      - tx-net
+    depends_on:
+      - d43proxy
+
+  door43-job-handler_2:
+    image: python:3
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_JobHandler_2"
     environment: *common-variables
     volumes:
       - ${PWD}/door43-job-handler:/scripts
