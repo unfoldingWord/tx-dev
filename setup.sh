@@ -14,4 +14,5 @@ npm ci
 
 git submodule update --init --recursive
 
-docker network create --driver bridge tx-net >/dev/null 2>&1
+#tar -xf dcs/data.tar.gz -C dcs
+

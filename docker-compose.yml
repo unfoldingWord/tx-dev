@@ -22,6 +22,8 @@ services:
   redis:
     container_name: redis
     image: redis:alpine
+    ports:
+      - 6379:6379
     networks: 
       - tx-net
 
@@ -49,10 +51,9 @@ services:
     depends_on:
       - d43enqueue
       
-  door43-job-handler_1:
-    container_name: door43-job-handler_1
+  door43-job-handler:
     image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_JobHandler_1"
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
       - ${PWD}/door43-job-handler:/scripts
@@ -62,23 +63,9 @@ services:
     depends_on:
       - d43proxy
 
-  door43-job-handler_2:
-    container_name: door43-job-handler_2
+  door43-catalog-job-handler:
     image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_JobHandler_2"
-    environment: *common-variables
-    volumes:
-      - ${PWD}/door43-job-handler:/scripts
-      - door43_u:/site/u
-    networks:
-      - tx-net
-    depends_on:
-      - d43proxy
-
-  door43-catalog-job-handler_1:
-    container_name: door43-catalog-job-handler_1
-    image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name D43_Dev_CatalogJobHandler"
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
       - ${PWD}/door43-catalog-job-handler:/scripts
@@ -111,22 +98,9 @@ services:
     depends_on:
       - txenqueue
     
-  tx-job-handler_1:
-    container_name: tx-job-handler_1
+  tx-job-handler:
     image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name tX_Dev_Job_Handler_1"
-    environment: *common-variables
-    volumes:
-      - ${PWD}/tx-job-handler:/scripts
-    networks:
-      - tx-net
-    depends_on:
-      - txproxy
-
-  tx-job-handler_2:
-    container_name: tx-job-handler_2
-    image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings --name tX_Dev_Job_Handler_2"
+    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
       - ${PWD}/tx-job-handler:/scripts
@@ -146,13 +120,10 @@ services:
       - USER_GID=1000
     ports:
       - ${DCS_PORT-5555}:80
-      - "222:22"
+      - 222:22
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - ${DCS_PORT-5555}:80
-      - "222:22"
     networks:
       - tx-net
   
