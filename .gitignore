@@ -111,3 +111,5 @@ sonar-project.properties
 setENVs.sh
 node_modules
 .env
+dcs/data
+
