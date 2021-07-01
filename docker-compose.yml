@@ -122,7 +122,6 @@ services:
       - ${DCS_PORT-5555}:80
       - 222:22
     volumes:
-      - ./dcs/data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
