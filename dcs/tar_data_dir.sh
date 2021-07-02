@@ -23,3 +23,7 @@ rm -rf data.tar.gz
 
 tar -czf data.tar.gz data
 
+cp data/gitea/conf/app.ini ./app.ini
+
+rm -rf data
+
