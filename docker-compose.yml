@@ -114,6 +114,7 @@ services:
     build:
       context: ./dcs
       args:
+        - DCS_PORT=${DCS_PORT-5555}
         - DOOR43_PREVIEW_PORT=${DOOR43_PREVIEW_PORT-5556}
     environment:
       - USER_UID=1000
