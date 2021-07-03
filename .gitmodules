@@ -20,3 +20,6 @@
 [submodule "door43-catalog-job-handler"]
 	path = door43-catalog-job-handler
 	url = git@github.com:unfoldingWord-dev/door43-catalog-job-handler.git
+[submodule "dcs"]
+	path = dcs
+	url = git@github.com:unfoldingWord-dev/tx-dev-dcs.git

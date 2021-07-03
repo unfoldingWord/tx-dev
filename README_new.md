@@ -29,6 +29,27 @@ DCS should already be populated with a root user, a unfoldingWord organization a
 
 Scroll down to bottom and click `Test Delivery`. Watch the output for d43proxy in the terminal to see it get the job queue it with d43enqueue and that there is a worker waiting. Then you'll see door43-job-handler do its preprocessing and then send the job to txproxy. txenqueue then queues the job and a worker is available. tx-job-handler is then envoked to do the conversion and then send a callback to 43proxy. See d43enqueue then enqueues a callback job for door43-job-handler to put the converted files in the dev-door43.org bucket. You can then view them by clicking the "Preview" at http://localhost:5555/unfoldingWord/en_obs/ (or en_ta).
 
+---
+
+# DCS Credentials
+
+Here are the users, the passwords, and their Application Tokens for the API:
+
+user: root
+password: DCS@test123
+API token: 84f6fc16baf206fe9f4812e10546dd0f64096f64
+description: super user, full admin access
+
+user: uwuser
+password: DCS@test123
+API token: 67ce2ee6f83d0f350f165233843babf940cc6a97
+descriptoin: User, owner of unfoldingWord org
+
+user: door43user
+password: DCS@test123
+API token: 6a3419a11b9379ab5c8c734ef67100f7f7f90a66
+description: User, owner of Door43-Catalog org
+
 ----
 
 # Migrating Resources from Produciton DCS
