@@ -14,12 +14,21 @@
 	path = tx-job-handler
 	url = git@github.com:unfoldingword-dev/tx-job-handler.git
 	branch = master
-[submodule "door43.org"]
-	path = door43.org
-	url = git@github.com:unfoldingword-dev/door43.org.git
 [submodule "door43-catalog-job-handler"]
 	path = door43-catalog-job-handler
 	url = git@github.com:unfoldingWord-dev/door43-catalog-job-handler.git
 [submodule "dcs"]
 	path = dcs
 	url = git@github.com:unfoldingWord-dev/tx-dev-dcs.git
+[submodule "tx-dev-door43"]
+	path = tx-dev-door43
+	url = git@github.com:unfoldingWord-dev/tx-dev-door43.git
+[submodule "door43"]
+	path = door43
+	url = git@github.com:unfoldingWord-dev/tx-dev-door43.git
+[submodule "door43.org"]
+	path = door43.org
+	url = git@github.com:unfoldingword-dev/door43.org.git
+[submodule "door43.org_docker/door43.org"]
+	path = door43.org_docker/door43.org
+	url = git@github.com:unfoldingword-dev/door43.org.git

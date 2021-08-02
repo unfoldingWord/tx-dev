@@ -2,7 +2,7 @@
 version: "3.9"
 
 x-common-variables: &common-variables
-  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID-}
   AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY-}
   QUEUE_PREFIX: "dev-"
   RESTRICT_GITEA_URL: ${RESTRICT_GITEA_URL-false}
@@ -42,7 +42,7 @@ services:
 
   d43proxy:
     container_name: d43proxy
-    image: nginx:latest
+    image: mohamnag/nginx-file-browser:latest
     command: /bin/sh -c "envsubst '$$ALLOWED_IPS' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     environment:
       - ALLOWED_IPS=${ALLOWED_IPS:-0.0.0.0/0}
@@ -59,7 +59,7 @@ services:
     environment: *common-variables
     volumes:
       - ${PWD}/door43-job-handler:/scripts
-      - door43_u:/site/u
+      - ./door43.org/_site:/dev-door43.org
     networks:
       - tx-net
     depends_on:
@@ -89,7 +89,7 @@ services:
 
   txproxy:
     container_name: txproxy
-    image: nginx:latest
+    image: mohamnag/nginx-file-browser:latest
     command: /bin/sh -c "envsubst '$$ALLOWED_IPS' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     environment:
       - ALLOWED_IPS=${ALLOWED_IPS:-0.0.0.0/0}
@@ -128,25 +128,45 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - tx-net
-  
+
   door43.org:
-    container_name: door43.org
     build: ./door43.org
+    volumes:
+      - ./door43.org:/source
+      - ./door43.org/_site:/source/_site
     ports:
       - "${LISTEN_IP:-127.0.0.1}:${DOOR43_PREVIEW_PORT-5556}:80"
-    volumes:
-      - door43_u:/site/u
     networks:
       - tx-net
 
+  dev-door43.org:
+    image: mohamnag/nginx-file-browser:latest
+    volumes:
+      - ./door43.org/_site:/opt/www/files
+    ports:
+      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_CDN_PORT-5557}:80"
+    networks:
+      - tx-net
+      
+  dev-cdn.door43.org:
+    image: mohamnag/nginx-file-browser:latest
+    volumes:
+      - ./dev-cdn.door43.org:/opt/www/files
+    ports:
+      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_CDN_PORT-5557}:80"
+    networks:
+      - tx-net
+      
+  dev-tx-webhook-client:
+    image: mohamnag/nginx-file-browser:latest
+    volumes:
+      - ./dev-tx-webhook-client:/opt/www/files
+    ports:
+      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_TX_PORT-5558}:80"
+    networks:
+      - tx-net
 
 networks:
   tx-net:
     name: tx-net
-    external: false
-
-
-volumes:
-  door43_u:
-    name: door43_u  
     external: false
