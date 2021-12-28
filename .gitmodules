@@ -32,3 +32,6 @@
 [submodule "door43.org_docker/door43.org"]
 	path = door43.org_docker/door43.org
 	url = git@github.com:unfoldingword-dev/door43.org.git
+[submodule "uw-pdf"]
+	path = uw-pdf
+	url = git@github.com:unfoldingword-dev/uw-pdf.git
