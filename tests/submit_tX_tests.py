@@ -88,7 +88,7 @@ for n, (status,testType) in enumerate(DATA_SET):
 
         # Use curl to actually POST the JSON to the given webhook URL
         parameters = ['curl', webhook, '-d', jsonFilename,
-                '--header', "Content-Type: application/json", '--header', "X-Gogs-Event: push",]
+                '--header', "Content-Type: application/json", '--header', "X-Gitea-Event: push",]
         myProcess = subprocess.Popen( parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
         programOutputBytes, programErrorOutputBytes = myProcess.communicate()
 

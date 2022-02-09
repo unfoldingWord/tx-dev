@@ -111,5 +111,3 @@ sonar-project.properties
 setENVs.sh
 node_modules
 .env
-dev-cdn.door43.org
-dev-tx-webhook-client

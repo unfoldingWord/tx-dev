@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 if [[ ! -e .env ]]; then
   cp env_sample .env

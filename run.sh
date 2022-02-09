@@ -1,21 +1,10 @@
 #!/usr/bin/env bash
 
-set -x 
+if test -f "./.env"; then
+  source .env
+fi
 
-declare -a DIRS
-DIRS[1]=door43-enqueue-job
-DIRS[2]=door43-job-handler
-DIRS[3]=tx-enqueue-job
-DIRS[4]=tx-job-handler
-DIRS[5]=dcs
-DIRS[6]=.
+docker compose up -d
 
-declare -a COMMANDS
-COMMANDS[1]="make composeEnqueueRedis"
-COMMANDS[2]="make runDevDebug"
-COMMANDS[3]="make composeEnqueue"
-COMMANDS[4]="make runDevDebug"
-COMMANDS[5]="make runDcsDockerCompose"
-COMMANDS[6]="make runDevDebug"
+echo "You can view all tX URLs and POST forms at http://${LISTEN_IP-127.0.0.1}:${HOMEPAGE_PORT-8080}"
 
-source ./setENVs.sh && cd ${DIRS[$1]} && ${COMMANDS[$1]}

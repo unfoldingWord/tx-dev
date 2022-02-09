@@ -2,35 +2,47 @@
 version: "3.9"
 
 x-common-variables: &common-variables
+  USE_WATCHTOWER: ${USE_WATCHTOWER-false}
   AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID-}
   AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY-}
-  QUEUE_PREFIX: "dev-"
-  RESTRICT_GITEA_URL: ${RESTRICT_GITEA_URL-false}
-  REDIS_HOSTNAME: ${REDIS_HOSTNAME-redis}
-  DEBUG_MODE: ${DEBUG_MODE-true}
-  REDIS_URL: ${REDIS_URL-redis://redis:6379}
-  DB_ENDPOINT: ${DB_ENDPOINT-sqlite:///:memory:}
-  TX_DATABASE_PW: ${TX_DATABASE_PW-123}
-  GITEA_URL: ${GITEA_URL-http://dcs}
-  GOGS_DOMAIN_NAME: ${GOGS_DOMAIN_NAME-dcs}
-  GOGS_USER: ${GOGS_USER-door43user}
-  GOGS_USER_TOKEN: ${GOGS_USER_TOKEN-6a3419a11b9379ab5c8c734ef67100f7f7f90a66}
+  HOMEPAGE_PORT: ${HOMEPAGE_PORT-8080}
+  DOOR43_ENQUEUE_JOB_PROXY_PORT: ${DOOR43_ENQUEUE_JOB_PROXY_PORT-5550}
+  TX_ENQUEUE_JOB_PROXY_PORT: ${TX_ENQUEUE_JOB_PROXY_PORT-5551}
+  DOOR43_FILEBROWSER_PORT: ${DOOR43_FILEBROWSER_PORT-5552}
+  CDN_FILEBROWSER_PORT: ${CDN_FILEBROWSER_PORT-5553}
+  TX_FILEBROWSER_PORT: ${TX_FILEBROWSER_PORT-5554}
   DCS_PORT: ${DCS_PORT-5555}
   DOOR43_PREVIEW_PORT: ${DOOR43_PREVIEW_PORT-5556}
+  DCS_SSH_PORT: ${DCS_SSH_PORT-222}
+  QUEUE_PREFIX: ${QUEUE_PREFIX-dev-}
+  RESTRICT_DCS_URL: ${RESTRICT_DCS_URL-false}
+  REDIS_HOSTNAME: ${REDIS_HOSTNAME-redis}
+  DEBUG_MODE: ${DEBUG_MODE-true}
+  REDIS_PORT: ${REDIS_PORT-6379}
+  REDIS_URL: ${REDIS_URL-redis://redis:6379}
+  DB_ENDPOINT: ${DB_ENDPOINT-sqlite:///c:memory:}
+  TX_DATABASE_PW: ${TX_DATABASE_PW-123}
+  DCS_URL: ${DCS_URL-http://dcs}
+  DCS_DOMAIN_NAME: ${DCS_DOMAIN_NAME-dcs}
+  DCS_USER: ${DCS_USER-door43user}
+  DCS_USER_TOKEN: ${DCS_USER_TOKEN-6a3419a11b9379ab5c8c734ef67100f7f7f90a66}
   DB_CONNECTION_STRING: ${DB_CONNECTION_STRING-sqlite:///:memory:}
-  TX_POST_URL: ${TX_POST_URL-http://txproxy}
-
+  TX_POST_URL: ${TX_POST_URL-http://tx-enqueue-job-proxy}
+  LISTEN_IP: ${LISTEN_IP-127.0.0.1}
+  ALLOWED_IPS: ${ALLOWED_IPS-0.0.0.0/0}
+  
 services:
   redis:
     container_name: redis
+    environment: *common-variables
     image: redis:alpine
     ports:
-      - 6379:6379
+      - ${LISTEN_IP:-127.0.0.1}:${REDIS_PORT-6379}:6379
     networks: 
       - tx-net
 
-  d43enqueue:
-    container_name: d43enqueue
+  door43-enqueue-job:
+    container_name: door43-enqueue-job
     build:
       context: ./door43-enqueue-job/enqueue
       dockerfile: Dockerfile-developBranch
@@ -40,44 +52,48 @@ services:
     depends_on:
       - redis
 
-  d43proxy:
+  door43-enqueue-job-proxy:
     container_name: d43proxy
-    image: mohamnag/nginx-file-browser:latest
+    image: nginx:latest
     command: /bin/sh -c "envsubst '$$ALLOWED_IPS' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
-    environment:
-      - ALLOWED_IPS=${ALLOWED_IPS:-0.0.0.0/0}
+    environment: *common-variables
+    ports:
+      - ${LISTEN_IP:-127.0.0.1}:${DOOR43_ENQUEUE_JOB_PROXY_PORT-5550}:80
     volumes:
-      - "${PWD}/door43-enqueue-job/proxyConf/dev-nginx.conf:/etc/nginx/conf.d/mysite.template:ro"
+      - ./door43-enqueue-job/proxyConf/dev-nginx.conf:/etc/nginx/conf.d/mysite.template:ro
     networks:
       - tx-net
     depends_on:
-      - d43enqueue
+      - door43-enqueue-job
       
   door43-job-handler:
+    container_name: door43-job-handler
     image: python:3
     command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
-      - ${PWD}/door43-job-handler:/scripts
+      - ./door43-job-handler:/scripts
       - ./door43.org/_site:/dev-door43.org
+      - dev-tx-webhook-client:/dev-tx-webhook-client
     networks:
       - tx-net
     depends_on:
-      - d43proxy
+      - door43-enqueue-job-proxy
 
   door43-catalog-job-handler:
+    container_name: door43-catalog-job-handler
     image: python:3
     command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
-      - ${PWD}/door43-catalog-job-handler:/scripts
+      - ./door43-catalog-job-handler:/scripts
     networks:
       - tx-net
     depends_on:
-      - d43proxy
+      - door43-enqueue-job-proxy
 
-  txenqueue:
-    container_name: txenqueue
+  tx-enqueue-job:
+    container_name: tx-enqueue-job
     build:
       context: ./tx-enqueue-job/tXenqueue
       dockerfile: Dockerfile-developBranch
@@ -87,42 +103,45 @@ services:
     depends_on:
       - redis
 
-  txproxy:
+  tx-enqueue-job-proxy:
     container_name: txproxy
-    image: mohamnag/nginx-file-browser:latest
+    image: nginx:latest
     command: /bin/sh -c "envsubst '$$ALLOWED_IPS' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
-    environment:
-      - ALLOWED_IPS=${ALLOWED_IPS:-0.0.0.0/0}
+    environment: *common-variables
+    ports:
+      - ${LISTEN_IP:-127.0.0.1}:${TX_ENQUEUE_JOB_PROXY_PORT-5551}:80
     volumes:
-      - ${PWD}/tx-enqueue-job/proxyConf/dev-nginx.conf:/etc/nginx/conf.d/mysite.template:ro
+      - ./tx-enqueue-job/proxyConf/dev-nginx.conf:/etc/nginx/conf.d/mysite.template:ro
     networks:
       - tx-net
     depends_on:
-      - txenqueue
+      - tx-enqueue-job
     
   tx-job-handler:
+    container_name: tx-job-handler
     image: python:3
     command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
     environment: *common-variables
     volumes:
-      - ${PWD}/tx-job-handler:/scripts
+      - ./tx-job-handler:/scripts
+      - ./
     networks:
       - tx-net
     depends_on:
-      - txproxy
+      - tx-enqueue-job-proxy
 
   dcs:
     container_name: dcs
     build:
-      context: ./dcs
+      context: ./tx-dev-dcs
       args:
         - DOOR43_PREVIEW_PORT=${DOOR43_PREVIEW_PORT-5556}
     environment:
       - USER_UID=1000
       - USER_GID=1000
     ports:
-      - ${DCS_PORT-5555}:80
-      - 222:22
+      - ${LISTEN_IP:-127.0.0.1}:${DCS_PORT-5555}:80
+      - ${LISTEN_IP:-127.0.0.1}:${DCS_SSH_PORT-222}:22
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -130,43 +149,87 @@ services:
       - tx-net
 
   door43.org:
+    container_name: door43.org
     build: ./door43.org
     volumes:
       - ./door43.org:/source
-      - ./door43.org/_site:/source/_site
     ports:
-      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_PREVIEW_PORT-5556}:80"
+      - ${LISTEN_IP:-127.0.0.1}:${DOOR43_PREVIEW_PORT-5556}:80
+    links:
+      - php
     networks:
       - tx-net
 
-  dev-door43.org:
-    image: mohamnag/nginx-file-browser:latest
+  door43-filebrowser:
+    container_name: door43-filebrowser
+    image: filebrowser/filebrowser:latest
+    environment: *common-variables
     volumes:
-      - ./door43.org/_site:/opt/www/files
+      - ./door43.org/_site/u:/files
+      - ./filebrowser.json:/.filebrowser.json
     ports:
-      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_CDN_PORT-5557}:80"
+      - ${LISTEN_IP:-127.0.0.1}:${DOOR43_FILEBROWSER_PORT-5552}:80
     networks:
       - tx-net
       
-  dev-cdn.door43.org:
-    image: mohamnag/nginx-file-browser:latest
+  cdn-filebrowser:
+    container_name: cdn-filebrowser
+    image: filebrowser/filebrowser:latest
+    environment: *common-variables
     volumes:
-      - ./dev-cdn.door43.org:/opt/www/files
+      - dev-cdn.door43.org:/files
+      - ./filebrowser.json:/.filebrowser.json
     ports:
-      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_CDN_PORT-5557}:80"
+      - ${LISTEN_IP:-127.0.0.1}:${CDN_FILEBROWSER_PORT-5553}:80
     networks:
       - tx-net
-      
-  dev-tx-webhook-client:
-    image: mohamnag/nginx-file-browser:latest
+
+  tx-filebrowser:
+    container_name: tx-filebrowser
+    image: filebrowser/filebrowser:latest
+    environment: *common-variables
     volumes:
-      - ./dev-tx-webhook-client:/opt/www/files
+      - dev-tx-webhook-client:/files
+      - ./filebrowser.json:/.filebrowser.json
     ports:
-      - "${LISTEN_IP:-127.0.0.1}:${DOOR43_TX_PORT-5558}:80"
+      - ${LISTEN_IP:-127.0.0.1}:${TX_FILEBROWSER_PORT-5554}:80
     networks:
       - tx-net
+
+  homepage:
+    container_name: homepage
+    build:
+      context: ./door43.org      
+    environment: *common-variables
+    ports:
+      - ${HOMEPAGE_PORT-8080}:80
+    volumes:
+      - ./homepage/html:/var/www/html
+    networks:
+      - tx-net
+    depends_on:
+      - tx-job-handler
+    links:
+      - php
+
+  php:
+    container_name: php
+    image: php:7-fpm
+    environment: *common-variables
+    volumes:
+      - ./homepage/code:/code
+    networks:
+      - tx-net
+
 
 networks:
   tx-net:
     name: tx-net
     external: false
+
+volumes:
+  dev-cdn.door43.org:
+    external: true
+  dev-tx-webhook-client:
+    external: true
+  

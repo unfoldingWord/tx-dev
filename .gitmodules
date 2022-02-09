@@ -26,3 +26,6 @@
 [submodule "tx-pdf"]
 	path = tx-pdf
 	url = git@github.com:unfoldingword-dev/tx-pdf.git
+[submodule "tx-pdf-job-handler"]
+	path = tx-pdf-job-handler
+	url = git@github.com:unfoldingword-dev/tx-pdf-job-handler.git

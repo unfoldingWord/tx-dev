@@ -6,7 +6,7 @@
 #
 # See Gitea documentation at https://try.gitea.io/api/swagger
 #
-# Assumes a valid Gitea access token saved as an environment variable: GITEA_USER_TOKEN
+# Assumes a valid Gitea access token saved as an environment variable: DCS_USER_TOKEN
 #   (This token will require administrator permission if wanting to access webhooks for other users.)
 #
 
@@ -44,7 +44,7 @@ MAX_WEBHOOKS_TO_TRIGGER = None # Set to None for no-limit or to an integer for t
 DOOR43_BASE_URL = 'git.door43.org/api/v1' # No protocol and no trailing slash
 # TEST_BASE_URL = 'try.gitea.io/api/v1'
 BASE_URL = DOOR43_BASE_URL
-ACCESS_TOKEN = environ['GITEA_USER_TOKEN'] # We need a Gitea access token from the environment
+ACCESS_TOKEN = environ['DCS_USER_TOKEN'] # We need a Gitea access token from the environment
 
 OUR_NAME = 'Trigger Webhook'
 
@@ -153,15 +153,15 @@ def post(command:str, parameters:Optional[str]=None) -> Optional[Dict[str,Any]]:
 # end of post function
 
 
-def get_Gitea_version() -> Optional[str]:
+def get_dcs_version() -> Optional[str]:
     """
     """
     result_json = get_result('version')
     if result_json:
-        Gitea_version = result_json['version']
-        # logging.debug(f"Gitea version = '{Gitea_version}'")
-        return Gitea_version
-# end of get_Gitea_version()
+        dcs_version = result_json['version']
+        # logging.debug(f"Gitea version = '{dcs_version}'")
+        return dcs_version
+# end of get_dcs_version()
 
 
 def get_all_organizations() -> Optional[Dict[str,Any]]:
@@ -334,7 +334,7 @@ if __name__ == '__main__':
     """
     logging.getLogger().setLevel(logging.INFO)
 
-    print(f"Communicating with {BASE_URL} running Gitea v{get_Gitea_version()}.")
+    print(f"Communicating with {BASE_URL} running DCS v{get_dcs_version()}.")
 
     # demo()
 
