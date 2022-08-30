@@ -116,13 +116,32 @@ services:
     depends_on:
       - redis
 
-  tx-job-handler:
-    container_name: tx-job-handler
-    image: python:3
-    command: /bin/bash -c "cd /scripts; pip install -r requirements.txt; rq worker --config rq_settings"
-    environment: *common-variables
+  tx-job-handler-1:
+    container_name: tx-job-handler-1
+    build:
+      context: ./tx-job-handler
+      dockerfile: Dockerfile-developBranch
+    environment:
+      <<: *common-variables
+      WORKER_NAME: worker-1
     volumes:
-      - ./tx-job-handler:/scripts
+      - ./tx-job-handler:/code
+    networks:
+      - tx-net
+    depends_on:
+      - redis
+      - door43-enqueue-job-proxy
+
+  tx-job-handler-2:
+    container_name: tx-job-handler-2
+    build:
+      context: ./tx-job-handler
+      dockerfile: Dockerfile-developBranch
+    environment:
+      <<: *common-variables
+      WORKER_NAME: worker-2
+    volumes:
+      - ./tx-job-handler:/code
     networks:
       - tx-net
     depends_on:
