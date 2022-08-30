@@ -1,9 +1,9 @@
 # rq and statsd/Graphite and requests are used by the job handler
-redis==3.5.3
-rq==1.9.0
-click==8.0.1
+redis==4.1.4
+rq==1.10.1
+click==8.0.4
 statsd==3.3.0
-requests==2.24.0
+requests==2.27.1
 
 # boto3 is used by aws_tools
-boto3==1.16.1
+boto3==1.21.18

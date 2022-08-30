@@ -1,9 +1,0 @@
-{
-  "port": 80,
-  "noauth": true,
-  "database": "/filebrowser.db",
-  "baseURL": "",
-  "address": "",
-  "log": "stdout",
-  "root": "/files"
-}

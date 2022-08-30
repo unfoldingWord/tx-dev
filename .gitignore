@@ -111,3 +111,7 @@ sonar-project.properties
 setENVs.sh
 node_modules
 .env
+
+.DS_Store
+.history
+.pylintrc
