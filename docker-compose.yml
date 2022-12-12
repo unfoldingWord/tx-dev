@@ -169,15 +169,15 @@ services:
     depends_on:
       - door43-enqueue-job-proxy
 
-  # door43.org:
-  #   container_name: door43.org
-  #   build: ./door43.org
-  #   volumes:
-  #     - ./door43.org:/source
-  #   ports:
-  #     - ${LISTEN_IP:-127.0.0.1}:${DOOR43_PREVIEW_PORT-5556}:80
-  #   networks:
-  #     - tx-net
+  door43.org:
+    container_name: door43.org
+    build: ./door43.org
+    volumes:
+      - ./door43.org:/source
+    ports:
+      - ${LISTEN_IP:-127.0.0.1}:${DOOR43_PREVIEW_PORT-5556}:80
+    networks:
+      - tx-net
 
   homepage:
     container_name: homepage

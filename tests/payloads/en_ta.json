@@ -1,8 +1,0 @@
-{
-  "job_id": "Door43_en_ta_HTML_request",
-  "identifier": "unfoldingword--en_ta--master",
-  "resource_type": "Translation Academy",
-  "input_format": "md",
-  "output_format": "html",
-  "source":"https://git.door43.org/unfoldingword/en_ta/archive/master.zip"
-}
